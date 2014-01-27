@@ -39,6 +39,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.MotionEvent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -463,6 +464,14 @@ public class InCallActivity extends Activity {
 
     public CallCardFragment getCallCardFragment() {
         return mCallCardFragment;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) { // On touch.
+        if (InCallPresenter.getInstance().getProximitySensor().isScreenOffByProximity())
+            return true;
+
+        return super.dispatchTouchEvent(event);
     }
 
     private void internalResolveIntent(Intent intent) {
